@@ -2,3 +2,4 @@ flask
 pandas
 supabase
 gunicorn
+Render
