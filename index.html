@@ -243,13 +243,13 @@
 
     /* Cajita "Recuerda" */
     .recuerda {
-      background: var(--rojo-suave);
-      border-left: 6px solid var(--rojo);
+      background: var(--verde-suave);
+      border-left: 6px solid var(--verde);
       border-radius: 12px;
       padding: 16px 18px;
       margin: 0 0 22px;
       font-size: 14.5px;
-      color: #4A1015;
+      color: #16422C;
       display: flex;
       gap: 12px;
       align-items: flex-start;
@@ -258,13 +258,13 @@
       flex-shrink: 0;
       width: 28px; height: 28px;
       border-radius: 50%;
-      background: var(--rojo);
+      background: var(--verde);
       color: var(--blanco);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800;
       font-size: 15px;
     }
-    .recuerda strong { color: var(--rojo); }
+    .recuerda strong { color: var(--verde); }
 
     .detalles {
       display: grid;
@@ -380,7 +380,7 @@
       </div>
 
       <div class="recuerda">
-        <div class="icono">!</div>
+        <div class="icono">💡</div>
         <div>
           <strong>Recuerda:</strong> la vacante a la que fuiste seleccionado(a) se asignó a partir de tu
           <strong>primera o segunda área de interés</strong>, o según tu <strong>carrera y perfil</strong>,
@@ -410,27 +410,45 @@
       </div>
 
       <div class="confirmar-box">
-        <h4>Confirma tu asistencia a la Creatón</h4>
-        <p>Revisa la información de tu citación y cuéntanos si asistirás.</p>
-        {% if estado == "SI" %}
-          <span class="estado estado-si">✔ Ya confirmaste tu asistencia</span>
-        {% elif estado == "NO" %}
-          <span class="estado estado-no">✖ Indicaste que no asistirás</span>
-        {% endif %}
-        {% if estado %}<p style="margin-top:8px">Si cambiaste de opinión, puedes actualizar tu respuesta:</p>{% endif %}
+        {% if estado %}
+          <h4>Tu respuesta ya está registrada</h4>
+          {% if estado == "SI" %}
+            <span class="estado estado-si">✔ Confirmaste tu asistencia</span>
+          {% else %}
+            <span class="estado estado-no">✖ Indicaste que no asistirás</span>
+          {% endif %}
+          <p style="margin-top:10px">Solo se permite una confirmación por cédula, por lo que no es posible modificarla.</p>
+        {% else %}
+          <h4>Confirma tu asistencia a la Creatón</h4>
+          <p>Revisa la información de tu citación y cuéntanos si asistirás.</p>
+          <div class="alerta alerta-info" style="text-align:left;margin-top:14px">
+            ⚠️ <span>Solo puedes responder <strong>una vez</strong>. Después de enviar tu respuesta no podrás cambiarla.</span>
+          </div>
 
-        <div class="botones">
-          <form action="/confirmar" method="POST">
-            <input type="hidden" name="cedula" value="{{ cedula }}">
-            <input type="hidden" name="respuesta" value="SI">
-            <button type="submit" class="btn btn-dorado">✔ Sí asistiré</button>
-          </form>
-          <form action="/confirmar" method="POST">
-            <input type="hidden" name="cedula" value="{{ cedula }}">
-            <input type="hidden" name="respuesta" value="NO">
-            <button type="submit" class="btn btn-borde">✖ No asistiré</button>
-          </form>
-        </div>
+          <div class="botones">
+            <form action="/confirmar" method="POST" onsubmit="return enviarUnaVez(this, '¿Confirmas que SÍ asistirás a la Creatón? Esta respuesta no se puede cambiar.');">
+              <input type="hidden" name="cedula" value="{{ cedula }}">
+              <input type="hidden" name="respuesta" value="SI">
+              <button type="submit" class="btn btn-dorado">✔ Sí asistiré</button>
+            </form>
+            <form action="/confirmar" method="POST" onsubmit="return enviarUnaVez(this, '¿Confirmas que NO asistirás a la Creatón? Esta respuesta no se puede cambiar.');">
+              <input type="hidden" name="cedula" value="{{ cedula }}">
+              <input type="hidden" name="respuesta" value="NO">
+              <button type="submit" class="btn btn-borde">✖ No asistiré</button>
+            </form>
+          </div>
+          <script>
+            var enviado = false;
+            function enviarUnaVez(form, mensaje) {
+              if (enviado || !confirm(mensaje)) return false;
+              enviado = true;
+              document.querySelectorAll('.botones button').forEach(function (b) {
+                b.disabled = true; b.style.opacity = .6;
+              });
+              return true;
+            }
+          </script>
+        {% endif %}
       </div>
 
       <a href="/" class="btn btn-negro" style="margin-top:22px">← Consultar otra cédula</a>
@@ -438,6 +456,11 @@
     {% elif vista == "confirmado" %}
       <!-- =============== RESPUESTA REGISTRADA =============== -->
       <div class="confirmado">
+        {% if ya_respondio %}
+          <div class="alerta alerta-info" style="text-align:left">
+            ℹ️ <span>Ya habías registrado tu respuesta. Solo se permite <strong>una confirmación por cédula</strong>, así que conservamos la primera.</span>
+          </div>
+        {% endif %}
         {% if respuesta == "SI" %}
           <div class="grande si">✔</div>
           <h2>¡Nos vemos en la Creatón, {{ fila.PrimerNombre or fila.Nombre }}!</h2>
@@ -448,7 +471,7 @@
         {% else %}
           <div class="grande no">✖</div>
           <h2>Gracias por avisarnos, {{ fila.PrimerNombre or fila.Nombre }}</h2>
-          <p class="ayuda">Registramos que no podrás asistir. Si cambias de opinión, puedes consultar tu cédula y actualizar tu respuesta.</p>
+          <p class="ayuda">Registramos que no podrás asistir. ¡Gracias por tu interés en Bavaria!</p>
         {% endif %}
 
         {% if not guardado %}
