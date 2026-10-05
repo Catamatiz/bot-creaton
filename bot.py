@@ -6,7 +6,8 @@ Talent Attraction & EVP | Bavaria (AB InBev Colombia)
 Rutas:
   GET  /           -> Formulario para ingresar la cédula
   POST /consultar  -> Busca la cédula en datos.csv y muestra la citación
-  POST /confirmar  -> Guarda la respuesta (SI / NO) en Supabase
+  POST /confirmar  -> Guarda la respuesta (SI / NO) en Supabase.
+                      Solo se acepta UNA respuesta por cédula.
 
 Render:
   Build Command: pip install -r requirements.txt
@@ -189,20 +190,31 @@ def confirmar():
         return render_template("index.html", vista="buscar",
                                error="No encontramos esta cédula en la lista de citados.")
 
+    # Solo se permite UNA confirmación por cédula: si ya respondió, no se cambia.
+    previa = estado_confirmacion(cedula)
+    if previa:
+        return render_template("index.html", vista="confirmado", fila=fila,
+                               cedula=cedula, respuesta=previa,
+                               guardado=True, ya_respondio=True)
+
     guardado = False
     if supabase is not None:
         try:
-            existente = supabase.table(TABLA).select("*").eq("cedula", cedula).execute()
-            if existente.data:   # Ya respondió antes -> actualiza
-                supabase.table(TABLA).update({"respuesta": respuesta}).eq("cedula", cedula).execute()
-            else:                # Primera respuesta -> inserta
-                supabase.table(TABLA).insert({"cedula": cedula, "respuesta": respuesta}).execute()
+            supabase.table(TABLA).insert({"cedula": cedula, "respuesta": respuesta}).execute()
             guardado = True
         except Exception as e:  # noqa: BLE001
+            # Si dos envíos llegan al tiempo, la restricción UNIQUE de la tabla
+            # rechaza el segundo: mostramos la respuesta que quedó guardada.
+            previa = estado_confirmacion(cedula)
+            if previa:
+                return render_template("index.html", vista="confirmado", fila=fila,
+                                       cedula=cedula, respuesta=previa,
+                                       guardado=True, ya_respondio=True)
             print(f"[ERROR] Guardando en Supabase: {e}")
 
     return render_template("index.html", vista="confirmado", fila=fila,
-                           cedula=cedula, respuesta=respuesta, guardado=guardado)
+                           cedula=cedula, respuesta=respuesta,
+                           guardado=guardado, ya_respondio=False)
 
 
 if __name__ == "__main__":
