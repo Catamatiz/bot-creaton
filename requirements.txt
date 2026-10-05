@@ -1,0 +1,4 @@
+flask
+pandas
+supabase
+gunicorn

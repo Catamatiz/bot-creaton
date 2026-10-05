@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citación Creatón | Practicantes Bavaria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --negro: #111111;
+      --negro-2: #1c1c1c;
+      --dorado: #D4A62A;
+      --dorado-claro: #F2D57E;
+      --dorado-suave: #FBF3DC;
+      --crema: #FAF7F0;
+      --rojo: #B3202A;
+      --rojo-suave: #FCEDEE;
+      --verde: #1F7A4D;
+      --verde-suave: #E8F5EE;
+      --gris: #6B6B6B;
+      --borde: #E8E1CF;
+      --blanco: #FFFFFF;
+      --radio: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+      background: var(--crema);
+      color: var(--negro);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.55;
+    }
+
+    /* ---------- Encabezado ---------- */
+    header {
+      background: var(--negro);
+      background-image:
+        radial-gradient(circle at 85% -20%, rgba(212,166,42,.35), transparent 45%),
+        radial-gradient(circle at 0% 120%, rgba(212,166,42,.18), transparent 40%);
+      color: var(--blanco);
+      padding: 28px 20px 92px;
+      text-align: center;
+      position: relative;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--dorado), var(--dorado-claro), var(--dorado));
+    }
+    .marca {
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--dorado);
+      font-weight: 700;
+    }
+    .marca-sub {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #BDBDBD;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    header h1 {
+      font-size: clamp(26px, 5vw, 38px);
+      font-weight: 800;
+      margin-top: 22px;
+      line-height: 1.15;
+    }
+    header h1 span { color: var(--dorado); }
+    header p.lead {
+      max-width: 520px;
+      margin: 12px auto 0;
+      color: #D9D9D9;
+      font-size: 15px;
+    }
+
+    /* ---------- Contenido ---------- */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 640px;
+      margin: -64px auto 40px;
+      padding: 0 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .tarjeta {
+      background: var(--blanco);
+      border-radius: var(--radio);
+      box-shadow: 0 18px 40px rgba(17,17,17,.12);
+      padding: 32px 28px;
+      border-top: 5px solid var(--dorado);
+    }
+    .tarjeta h2 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .tarjeta .ayuda {
+      color: var(--gris);
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 15px 16px;
+      font-size: 18px;
+      font-family: inherit;
+      border: 2px solid var(--borde);
+      border-radius: 12px;
+      background: var(--crema);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: var(--dorado);
+      box-shadow: 0 0 0 4px rgba(212,166,42,.2);
+      background: var(--blanco);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 15px 20px;
+      margin-top: 16px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .15s, box-shadow .2s, background .2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-dorado {
+      background: var(--dorado);
+      color: var(--negro);
+      box-shadow: 0 8px 18px rgba(212,166,42,.35);
+    }
+    .btn-dorado:hover { background: #E0B43A; }
+    .btn-negro { background: var(--negro); color: var(--blanco); }
+    .btn-negro:hover { background: var(--negro-2); }
+    .btn-borde {
+      background: transparent;
+      color: var(--negro);
+      border: 2px solid var(--negro);
+    }
+    .btn-borde:hover { background: var(--negro); color: var(--blanco); }
+
+    /* ---------- Pasos ---------- */
+    .pasos {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--borde);
+    }
+    .pasos li {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #A8A8A8;
+    }
+    .pasos li span {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: #EFEBE1;
+      color: #A8A8A8;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .pasos li.activo { color: var(--negro); }
+    .pasos li.activo span { background: var(--dorado); color: var(--negro); box-shadow: 0 0 0 4px rgba(212,166,42,.22); }
+    .pasos li.hecho { color: var(--negro); }
+    .pasos li.hecho span { background: var(--negro); color: var(--dorado); }
+
+    /* ---------- Alertas ---------- */
+    .alerta {
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      margin-bottom: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .alerta-error { background: var(--rojo-suave); color: var(--rojo); border: 1px solid #F3C9CC; }
+    .alerta-ok { background: var(--verde-suave); color: var(--verde); border: 1px solid #BFE3CF; }
+    .alerta-info { background: var(--dorado-suave); color: #6B5200; border: 1px solid var(--dorado-claro); }
+
+    /* ---------- Resultado ---------- */
+    .saludo { font-size: 15px; color: var(--gris); }
+    .saludo strong { color: var(--negro); }
+    .vacante {
+      background: var(--negro);
+      color: var(--blanco);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin: 18px 0;
+    }
+    .vacante small {
+      color: var(--dorado);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .vacante h3 {
+      font-size: 21px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    /* Cajita "Recuerda" */
+    .recuerda {
+      background: var(--rojo-suave);
+      border-left: 6px solid var(--rojo);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 0 0 22px;
+      font-size: 14.5px;
+      color: #4A1015;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .recuerda .icono {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--rojo);
+      color: var(--blanco);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .recuerda strong { color: var(--rojo); }
+
+    .detalles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .dato {
+      background: var(--crema);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 14px 16px;
+    }
+    .dato.completo { grid-column: 1 / -1; }
+    .dato .etiqueta {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #9A7A14;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .dato .valor { font-size: 16px; font-weight: 600; word-break: break-word; }
+
+    .descripcion {
+      white-space: pre-line;
+      font-size: 14.5px;
+      color: #333;
+    }
+
+    .confirmar-box {
+      border-top: 1px dashed var(--borde);
+      padding-top: 22px;
+      margin-top: 6px;
+      text-align: center;
+    }
+    .confirmar-box h4 { font-size: 17px; font-weight: 800; }
+    .confirmar-box p { font-size: 14px; color: var(--gris); margin-top: 4px; }
+    .botones {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .botones form { margin: 0; }
+
+    .estado {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+    .estado-si { background: var(--verde-suave); color: var(--verde); }
+    .estado-no { background: var(--rojo-suave); color: var(--rojo); }
+
+    .confirmado { text-align: center; }
+    .confirmado .grande {
+      width: 76px; height: 76px;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      font-weight: 800;
+    }
+    .grande.si { background: var(--verde-suave); color: var(--verde); }
+    .grande.no { background: var(--rojo-suave); color: var(--rojo); }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gris);
+      padding: 0 16px 28px;
+    }
+    footer span { color: var(--dorado); font-weight: 700; }
+
+    @media (max-width: 520px) {
+      .tarjeta { padding: 26px 18px; }
+      .detalles, .botones { grid-template-columns: 1fr; }
+      header { padding-bottom: 84px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="marca">Bavaria · AB InBev</div>
+    <div class="marca-sub">Talent Attraction &amp; EVP</div>
+    <h1>Creatón de <span>Practicantes</span></h1>
+    <p class="lead">Ingresa tu número de cédula para ver la información de tu citación a la Creatón y confirmar tu asistencia.</p>
+  </header>
+
+  <main>
+    <div class="tarjeta">
+
+      <!-- Indicador de pasos -->
+      {% set paso = 3 if vista == "confirmado" else (2 if vista == "resultado" else 1) %}
+      <ol class="pasos">
+        <li class="{{ 'activo' if paso == 1 else 'hecho' }}"><span>1</span>Ingresa tu cédula</li>
+        <li class="{{ 'activo' if paso == 2 else ('hecho' if paso > 2 else '') }}"><span>2</span>Revisa tu citación</li>
+        <li class="{{ 'activo' if paso == 3 else '' }}"><span>3</span>Confirma</li>
+      </ol>
+
+    {% if vista == "resultado" %}
+      <!-- =============== RESULTADO DE LA CONSULTA =============== -->
+      <p class="saludo">¡Hola, <strong>{{ fila.PrimerNombre or fila.Nombre }}</strong>! 🎉</p>
+      <h2>¡Fuiste seleccionado(a) para la Creatón!</h2>
+
+      <div class="vacante">
+        <small>Vacante asignada</small>
+        <h3>{{ fila.Vacante }}</h3>
+      </div>
+
+      <div class="recuerda">
+        <div class="icono">!</div>
+        <div>
+          <strong>Recuerda:</strong> la vacante a la que fuiste seleccionado(a) se asignó a partir de tu
+          <strong>primera o segunda área de interés</strong>, o según tu <strong>carrera y perfil</strong>,
+          teniendo en cuenta dónde consideramos que esta experiencia puede ser más provechosa para ti.
+        </div>
+      </div>
+
+      <div class="detalles">
+        <div class="dato">
+          <span class="etiqueta">📅 Fecha</span>
+          <span class="valor">{{ fila.Fecha }}</span>
+        </div>
+        <div class="dato">
+          <span class="etiqueta">🕒 Hora</span>
+          <span class="valor">{{ fila.Hora }}</span>
+        </div>
+        <div class="dato completo">
+          <span class="etiqueta">📍 Ubicación</span>
+          <span class="valor">{{ fila.Ubicacion }}</span>
+        </div>
+        {% if fila.Descripcion %}
+        <div class="dato completo">
+          <span class="etiqueta">📝 Descripción del cargo</span>
+          <p class="descripcion">{{ fila.Descripcion }}</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="confirmar-box">
+        <h4>Confirma tu asistencia a la Creatón</h4>
+        <p>Revisa la información de tu citación y cuéntanos si asistirás.</p>
+        {% if estado == "SI" %}
+          <span class="estado estado-si">✔ Ya confirmaste tu asistencia</span>
+        {% elif estado == "NO" %}
+          <span class="estado estado-no">✖ Indicaste que no asistirás</span>
+        {% endif %}
+        {% if estado %}<p style="margin-top:8px">Si cambiaste de opinión, puedes actualizar tu respuesta:</p>{% endif %}
+
+        <div class="botones">
+          <form action="/confirmar" method="POST">
+            <input type="hidden" name="cedula" value="{{ cedula }}">
+            <input type="hidden" name="respuesta" value="SI">
+            <button type="submit" class="btn btn-dorado">✔ Sí asistiré</button>
+          </form>
+          <form action="/confirmar" method="POST">
+            <input type="hidden" name="cedula" value="{{ cedula }}">
+            <input type="hidden" name="respuesta" value="NO">
+            <button type="submit" class="btn btn-borde">✖ No asistiré</button>
+          </form>
+        </div>
+      </div>
+
+      <a href="/" class="btn btn-negro" style="margin-top:22px">← Consultar otra cédula</a>
+
+    {% elif vista == "confirmado" %}
+      <!-- =============== RESPUESTA REGISTRADA =============== -->
+      <div class="confirmado">
+        {% if respuesta == "SI" %}
+          <div class="grande si">✔</div>
+          <h2>¡Nos vemos en la Creatón, {{ fila.PrimerNombre or fila.Nombre }}!</h2>
+          <p class="ayuda">Confirmaste tu asistencia para <strong>{{ fila.Fecha }}</strong> a las <strong>{{ fila.Hora }}</strong></p>
+          <div class="alerta alerta-info" style="text-align:left">
+            📍 <span><strong>Lugar:</strong> {{ fila.Ubicacion }}<br>Te recomendamos llegar 15 minutos antes con tu documento de identidad.</span>
+          </div>
+        {% else %}
+          <div class="grande no">✖</div>
+          <h2>Gracias por avisarnos, {{ fila.PrimerNombre or fila.Nombre }}</h2>
+          <p class="ayuda">Registramos que no podrás asistir. Si cambias de opinión, puedes consultar tu cédula y actualizar tu respuesta.</p>
+        {% endif %}
+
+        {% if not guardado %}
+          <div class="alerta alerta-error" style="text-align:left">
+            ⚠️ <span>No pudimos guardar tu respuesta en este momento. Por favor intenta de nuevo en unos minutos.</span>
+          </div>
+        {% endif %}
+
+        <a href="/" class="btn btn-negro">Volver al inicio</a>
+      </div>
+
+    {% else %}
+      <!-- =============== FORMULARIO DE BÚSQUEDA =============== -->
+      <h2>Consulta tu citación a la Creatón</h2>
+      <p class="ayuda">Escribe tu número de cédula (sin puntos ni espacios). Con ella verás tu vacante, fecha, hora y lugar, y podrás confirmar tu asistencia.</p>
+
+      {% if error %}
+        <div class="alerta alerta-error">❌ <span>{{ error }}</span></div>
+      {% endif %}
+
+      <form action="/consultar" method="POST">
+        <label for="cedula">Número de cédula</label>
+        <input type="text" id="cedula" name="cedula" inputmode="numeric" autocomplete="off"
+               placeholder="Ej: 1023456789" value="{{ cedula or '' }}" required>
+        <button type="submit" class="btn btn-dorado">Consultar mi citación →</button>
+      </form>
+    {% endif %}
+
+    </div>
+  </main>
+
+  <footer>
+    Talent Attraction &amp; EVP · <span>Bavaria</span> – AB InBev Colombia
+  </footer>
+
+</body>
+</html>
